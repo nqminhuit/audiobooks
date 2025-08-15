@@ -13,7 +13,6 @@
     flex-direction: column;
     align-items: center;
     padding: 2rem;
-    min-height: 100vh;
     margin: 0;
   }
 
@@ -40,7 +39,7 @@
     max-width: 800px;
 
     /* FIXED SIZE */
-    min-height: 8rem;         /* ensures box stays same height */
+    height: 8rem;         /* ensures box stays same height */
     display: flex;            /* for vertical centering */
     align-items: center;
     justify-content: center;
@@ -59,7 +58,7 @@
   @media (max-width: 480px) {
       #subtitle {
           height: 250px;
-          font-size: 1.2rem;
+          font-size: 1.3rem;
       }
   }
 
@@ -95,7 +94,7 @@
 
 <script>
   const AUDIO_SRC = "content/audio/cb.ta.wav";
-  const SRT_URL = "https://gist.githubusercontent.com/nqminhuit/909be29182fa04cdcf2d9b3c7ed34138/raw/f2b6710adfdea9642c925ed94dcc5240848f4c51/cb.ta.srt";
+  const SRT_URL = "https://gist.githubusercontent.com/nqminhuit/909be29182fa04cdcf2d9b3c7ed34138/raw/5d7fd451f77545069725c1ce1e636ba73b6741aa/cb.ta.srt";
 
   const audio = document.getElementById('audio');
   const subtitleEl = document.getElementById('subtitle');

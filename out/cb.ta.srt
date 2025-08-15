@@ -1,0 +1,23 @@
+1
+00:00:00,000 --> 00:00:05,063
+Chapter one. Mister SHERLOCK HOLMES.
+
+2
+00:00:05,063 --> 00:00:16,791
+In the year eighteen seventy eight I took my degree of Doctor of Medicine of the University of London, and proceeded to Netley to go through the course prescribed for surgeons in the army.
+
+3
+00:00:16,791 --> 00:00:25,017
+Having completed my studies there, I was duly attached to the Fifth Northumberland Fusiliers as Assistant Surgeon.
+
+4
+00:00:25,017 --> 00:00:33,146
+The regiment was stationed in India at the time, and before I could join it, the second Afghan war had broken out.
+
+5
+00:00:33,146 --> 00:00:41,156
+On landing at Bombay, I learned that my corps had advanced through the passes, and was already deep in the enemy’s country.
+
+6
+00:00:41,156 --> 00:00:54,316
+I followed, however, with many other officers who were in the same situation as myself, and succeeded in reaching Candahar in safety, where I found my regiment, and at once entered upon my new duties.

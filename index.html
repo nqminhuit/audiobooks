@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Audiobook Player</title>
+<style>
+  body {
+    font-family: 'Helvetica Neue', sans-serif;
+    background: linear-gradient(135deg,#ece9e6,#ffffff);
+    color: #222;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+    min-height: 100vh;
+    margin: 0;
+  }
+
+  h1 {
+    font-weight: 600;
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+
+  audio {
+    width: 100%;
+    max-width: 600px;
+    margin-bottom: 2rem;
+  }
+
+  #subtitle {
+    font-size: 1.4rem;
+    background: rgba(0,0,0,0.7);
+    color: #fff;
+    padding: 0.8rem 1.2rem;
+    border-radius: 12px;
+    text-align: center;
+    width: 80%;
+    max-width: 800px;
+
+    /* FIXED SIZE */
+    min-height: 8rem;         /* ensures box stays same height */
+    display: flex;            /* for vertical centering */
+    align-items: center;
+    justify-content: center;
+
+    line-height: 1.4;
+    overflow-wrap: break-word;
+    transition: opacity 0.3s ease;
+    opacity: 0;
+    margin: 1rem auto;
+  }
+
+  #subtitle.show {
+    opacity: 1;
+  }
+
+  .progress-container {
+    width: 100%;
+    max-width: 600px;
+    height: 8px;
+    background: #ddd;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-top: 1rem;
+  }
+
+  .progress-bar {
+    height: 100%;
+    width: 0%;
+    background: #4caf50;
+    transition: width 0.1s linear;
+  }
+</style>
+</head>
+<body>
+
+<h1>Audiobook Player</h1>
+
+<audio id="audio" controls preload="metadata"></audio>
+
+<div id="subtitle">Loading subtitles...</div>
+
+<div class="progress-container">
+  <div class="progress-bar" id="progress"></div>
+</div>
+
+<script>
+  const AUDIO_SRC = "content/audio/cb.ta.wav";
+  const SRT_URL = "https://gist.githubusercontent.com/nqminhuit/909be29182fa04cdcf2d9b3c7ed34138/raw/f2b6710adfdea9642c925ed94dcc5240848f4c51/cb.ta.srt";
+
+  const audio = document.getElementById('audio');
+  const subtitleEl = document.getElementById('subtitle');
+  const progressBar = document.getElementById('progress');
+
+  // Set audio source
+  audio.src = AUDIO_SRC;
+  audio.load();
+
+  // Load and parse SRT file
+  async function loadSRT(url) {
+    const res = await fetch(url);
+    const text = await res.text();
+    return parseSRT(text);
+  }
+
+  function parseSRT(srtText) {
+    const entries = [];
+    const blocks = srtText.trim().split("\n\n");
+    blocks.forEach(block => {
+      const lines = block.split("\n");
+      if (lines.length >= 3) {
+        const time = lines[1].split(" --> ");
+        const parseTime = t => {
+          const [h, m, s_ms] = t.trim().split(":");
+          const [s, ms] = String(s_ms).split(",");
+          return Number(h)*3600 + Number(m)*60 + Number(s) + Number(ms)/1000;
+        };
+        const start = parseTime(time[0]);
+        const end = parseTime(time[1]);
+        const content = lines.slice(2).join(" ");
+        entries.push({ start, end, content });
+      }
+    });
+    return entries;
+  }
+
+  function displaySubtitles(audio, subtitles, subtitleEl) {
+    audio.addEventListener('timeupdate', () => {
+      const t = audio.currentTime;
+      const current = subtitles.find(sub => t >= sub.start && t <= sub.end);
+      if (current) {
+        if (subtitleEl.textContent !== current.content) {
+          subtitleEl.textContent = current.content;
+        }
+        subtitleEl.classList.add('show');
+      } else {
+        subtitleEl.classList.remove('show');
+      }
+
+      // update progress bar
+      if (audio.duration) {
+        progressBar.style.width = ((audio.currentTime / audio.duration) * 100) + "%";
+      }
+    });
+  }
+
+  // Load SRT and start subtitle display
+  loadSRT(SRT_URL)
+    .then(subtitles => {
+      displaySubtitles(audio, subtitles, subtitleEl);
+      subtitleEl.textContent = ''; // clear "Loading" text
+    })
+    .catch(err => {
+      subtitleEl.textContent = 'Failed to load subtitles.';
+      console.error(err);
+    });
+</script>
+
+</body>
+</html>

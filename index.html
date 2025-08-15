@@ -13,7 +13,9 @@
     flex-direction: column;
     align-items: center;
     padding: 2rem;
+    height: 100vh;
     margin: 0;
+    box-sizing: border-box;
   }
 
   h1 {
@@ -39,8 +41,8 @@
     max-width: 800px;
 
     /* FIXED SIZE */
-    height: 8rem;         /* ensures box stays same height */
-    display: flex;            /* for vertical centering */
+    height: 8rem;
+    display: flex;
     align-items: center;
     justify-content: center;
 
@@ -78,6 +80,21 @@
     background: #4caf50;
     transition: width 0.1s linear;
   }
+
+  #notice {
+    font-size: 0.9rem;
+    color: #555;
+    text-align: center;
+    margin-top: 2rem;
+    max-width: 600px;
+    padding: 0 1rem;
+  }
+
+  @media (max-width: 480px) {
+    #notice {
+      font-size: 0.8rem;
+    }
+  }
 </style>
 </head>
 <body>
@@ -92,9 +109,13 @@
   <div class="progress-bar" id="progress"></div>
 </div>
 
+<footer id="notice">
+  ⚠️ This voice is licensed to Valve's Dota 2. The audio here is AI-generated for personal study only.
+</footer>
+
 <script>
   const AUDIO_SRC = "content/audio/cb.ta.wav";
-  const SRT_URL = "https://gist.githubusercontent.com/nqminhuit/909be29182fa04cdcf2d9b3c7ed34138/raw/5d7fd451f77545069725c1ce1e636ba73b6741aa/cb.ta.srt";
+  const SRT_URL = "https://gist.githubusercontent.com/nqminhuit/909be29182fa04cdcf2d9b3c7ed34138/raw/f2b6710adfdea9642c925ed94dcc5240848f4c51/cb.ta.srt";
 
   const audio = document.getElementById('audio');
   const subtitleEl = document.getElementById('subtitle');
